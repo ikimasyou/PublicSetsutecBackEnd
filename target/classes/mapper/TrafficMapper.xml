@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kr.setsu.mapper.TrafficMapper">
+	<resultMap type="com.kr.setsu.entity.TrafficInfo" id="trafficInfoResult">
+		<id property="trafficId" column="id"/>
+		<result property="date" column="date" />
+		<result property="userId" column="user_id"/>
+		<result property="division" column="division"/>
+		<result property="type" column="type"/>
+		<result property="line" column="line" />
+		<result property="ryoukin" column="cost"/>
+		<result property="kou" column="price"/>
+		<result property="status" column="status"/>
+	</resultMap>
+	
+	<insert id="insertTraffic"  keyProperty="id" parameterType="com.kr.setsu.entity.TrafficInfo" useGeneratedKeys="true">
+		insert into kanri_traffic(id,date,user_id,division,type,line,cost,price) values(#{trafficId},#{date},#{userId},#{division},#{type},#{line},#{ryoukin},#{kou})
+	</insert>
+	
+	<update id="updateTraffic" parameterType="com.kr.setsu.entity.TrafficInfo">
+		update kanri_traffic set date = #{date}, division = #{division},type = #{type},line = #{line},cost = #{ryoukin},price = #{kou} where id = #{trafficId}
+	</update>
+</mapper>

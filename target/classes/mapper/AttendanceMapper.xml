@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kr.setsu.mapper.AttendanceMapper">
+	<resultMap type="com.kr.setsu.entity.AttendanceInfo" id="attendanceInfoResult">
+		<id property="attendanceId" column="attendance_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="date" column="hiduke" />
+		<result property="division" column="kinmu_kubun"/>
+		<result property="begin" column="shukkin_jikan"/><!-- 这里更改了syukin_jikan为shukkin_jikan -->
+		<result property="end" column="taikin_jikan" />
+		<result property="breakday" column="hiruma_kyukei_jikan"/><!-- 这里更改了hiruma_kyukeyi_jikan为hiruma_kyukei_jikan -->
+		<result property="breaknight" column="yuugata_kyukei_jikan"/><!-- 这里更改了yuugata_kyukeyi_jikan为yuugata_kyukei_jikan -->
+		<result property="workhour" column="jitudou_jikan" />
+		<result property="workcontent" column="kinmu_nayiyo"/>
+		<result property="note" column="biko"/>
+		<result property="workhour" column="jitudou_jikan"/>
+		<result property="kinmuid" column="kinmu_kiroku_id"/>
+		<result property="changework" column="changework"/>
+		<result property="status" column="status"/>
+	</resultMap>
+
+	<!--<insert id="shukkin"  keyProperty="attendanceId" parameterType="com.kr.setsu.entity.AttendanceInfo" useGeneratedKeys="true">
+		insert into kanri_month(date,user_id,begin) values(#{date},#{userId},#{begin})
+	</insert> -->
+	
+	<insert id="insertAttendance"  keyProperty="attendanceId" parameterType="com.kr.setsu.entity.AttendanceInfo" useGeneratedKeys="true">
+		insert into kanri_month(date,user_id,begin,end,breakday,breaknight,workhour,workcontent,division,changework,note) values(#{date},#{userId},#{begin},#{end},#{breakday},#{breaknight},#{workhour},#{workcontent},#{division},#{changework},#{note})
+	</insert>
+	
+	<!-- <update id="taikin" parameterType="com.kr.setsu.entity.AttendanceInfo">
+		update kanri_month set end = #{end} where attendance_id = #{attendanceId}
+	</update>-->
+	
+	<update id = "updateAttendance" parameterType="com.kr.setsu.entity.AttendanceInfo">
+	update kanri_month set end = #{end},begin=#{end},division=#{division},date=#{date},note=#{note},workhour=#{workhour},workcontent=#{workcontent},breakday=#{breakday},breaknight=#{breaknight},changework=#{changework} where attendance_id = #{attendanceId}
+	</update>
+	
+</mapper>

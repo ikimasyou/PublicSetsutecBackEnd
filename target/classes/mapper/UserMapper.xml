@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kr.setsu.mapper.UserMapper">
+	<resultMap type="com.kr.setsu.entity.UserInfo" id="userInfoResult">
+		<id property="userId" column="user_id"/>
+		<result property="username" column="username" />
+		<result property="password" column="password"/>
+		<result property="oldPassword" column="old_password"/>
+		<result property="e_mail" column="e-mail"/>
+	
+	</resultMap>
+
+	<insert id="addUser"  keyProperty="userId" parameterType="com.kr.setsu.entity.UserInfo" useGeneratedKeys="true">
+		insert into kanri_user(user_id,username,password,e-mail) values(#{userId},#{username},#{password},#{e_mail})
+	</insert>
+
+	<update id="updateUser" parameterType="com.kr.setsu.entity.UserInfo">
+		update kanri_user set username = #{username}, password = #{password},e-mail = #{e_mail} where user_id = #{userId}
+	</update>
+</mapper>
