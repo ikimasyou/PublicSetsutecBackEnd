@@ -5,12 +5,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kr.setsu.entity.ResumeInfo;
 import com.kr.setsu.mapper.ResumeMapper;
 import com.kr.setsu.service.ResumeService;
 
@@ -37,6 +40,21 @@ public class ResumeServiceImpl implements ResumeService {
 		// 4. 存数据库
 		resumeMapper.insertResume(userId, targetPath.toString());
 		return 0;
+	}
+
+	@Override
+	public List<ResumeInfo> selectResumeByUserId(String userId) {
+		// TODO Auto-generated method stub
+		return resumeMapper.selectResumesByUserId(userId);
+	}
+
+	@Override
+	public int deleteResume(String userId, String fileName) throws IOException {
+		// TODO Auto-generated method stub
+		Path filePath = Paths.get(basePath, userId, fileName);
+		Files.deleteIfExists(filePath);
+		resumeMapper.deleteResume(userId, filePath.toString());
+		return 1;
 	}
 
 }
