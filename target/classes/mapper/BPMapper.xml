@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kr.setsu.mapper.BPMapper">
+    <select id="selectByUserId" resultType="com.kr.setsu.entity.BPPersonnel">
+        SELECT
+            id,
+            user_id,
+            surname,
+            given_name,
+            surname_kana,
+            given_name_kana,
+            surname_en,
+            given_name_en,
+            gender,
+            nationality,
+            contact,
+            station,
+            company,
+            request
+        FROM bp_personnel
+        WHERE user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="com.kr.setsu.entity.BPPersonnel">
+        INSERT INTO bp_personnel (
+            user_id,
+            surname,
+            given_name,
+            surname_kana,
+            given_name_kana,
+            surname_en,
+            given_name_en,
+            gender,
+            nationality,
+            contact,
+            station,
+            company,
+            request
+        ) VALUES (
+            #{userId},
+            #{surname},
+            #{givenName},
+            #{surnameKana},
+            #{givenNameKana},
+            #{surnameEn},
+            #{givenNameEn},
+            #{gender},
+            #{nationality},
+            #{contact},
+            #{station},
+            #{company},
+            #{request}
+        )
+    </insert>
+
+    <update id="updateByUserId" parameterType="com.kr.setsu.entity.BPPersonnel">
+        UPDATE bp_personnel
+        <set>
+            <if test="surname != null">
+                surname = #{surname},
+            </if>
+            <if test="givenName != null">
+                given_name = #{givenName},
+            </if>
+            <if test="surnameKana != null">
+                surname_kana = #{surnameKana},
+            </if>
+            <if test="givenNameKana != null">
+                given_name_kana = #{givenNameKana},
+            </if>
+            <if test="surnameEn != null">
+                surname_en = #{surnameEn},
+            </if>
+            <if test="givenNameEn != null">
+                given_name_en = #{givenNameEn},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="nationality != null">
+                nationality = #{nationality},
+            </if>
+            <if test="contact != null">
+                contact = #{contact},
+            </if>
+            <if test="station != null">
+                station = #{station},
+            </if>
+            <if test="company != null">
+                company = #{company},
+            </if>
+            <if test="request != null">
+                request = #{request},
+            </if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+
+</mapper>
