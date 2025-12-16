@@ -17,12 +17,23 @@ import com.kr.setsu.entity.ResumeInfo;
 @Repository
 @Mapper
 public interface ResumeMapper {
-	@Insert("INSERT INTO bp_resume(user_id, filepath) VALUES (#{userId}, #{filepath})")
-	int insertResume(@Param("userId") String userId, @Param("filepath") String filepath);
-	
+	/*
+	 * @Insert("INSERT INTO bp_resume(user_id, filepath) VALUES (#{userId}, #{filepath})"
+	 * ) int insertResume(@Param("userId") String userId, @Param("filepath") String
+	 * filepath);
+	 */
+
+	@Insert("INSERT INTO bp_resume(user_id, filepath, updated_at) VALUES (#{userId}, #{filepath}, #{updatedAt})")
+	int insertResume(@Param("userId") String userId, @Param("filepath") String filepath,
+			@Param("updatedAt") LocalDateTime updatedAt);
+
 	@Select("select filepath,updated_at from bp_resume where user_id=#{userId}")
 	List<ResumeInfo> selectResumesByUserId(String userId);
-	
+
 	@Delete("DELETE FROM bp_resume WHERE user_id = #{userId} AND filepath = #{filepath}")
-	int deleteResume(@Param("userId") String userId,@Param("filepath") String filePath);
+	int deleteResume(@Param("userId") String userId, @Param("filepath") String filePath);
+
+	@Select("SELECT filepath FROM bp_resume  WHERE user_id = #{userId}  AND updated_at = #{updatedAt}")
+	String selectFilePathByUserAndTime(@Param("userId") String userId, @Param("updatedAt") LocalDateTime updatedAt);
+
 }

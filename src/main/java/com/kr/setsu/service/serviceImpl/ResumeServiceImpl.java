@@ -26,20 +26,46 @@ public class ResumeServiceImpl implements ResumeService {
 	@Value("${resume.path}")
 	private String basePath;
 
+	/*
+	 * @Override public int insertResume(MultipartFile file, String userId) throws
+	 * Exception { // TODO Auto-generated method stub // 1. 拼接目录 Path userDir =
+	 * Paths.get(basePath, userId); Files.createDirectories(userDir); // 2. 拼接完整文件路径
+	 * String fileName = file.getOriginalFilename(); Path targetPath =
+	 * userDir.resolve(fileName); // 3. 保存文件 Files.copy(file.getInputStream(),
+	 * targetPath, StandardCopyOption.REPLACE_EXISTING); // 4. 存数据库
+	 * resumeMapper.insertResume(userId, targetPath.toString()); return 0; }
+	 */
+
 	@Override
 	public int insertResume(MultipartFile file, String userId) throws Exception {
-		// TODO Auto-generated method stub
-		// 1. 拼接目录
-		Path userDir = Paths.get(basePath, userId);
+		// 1. 获取当前时间（精确到秒）
+		LocalDateTime now = LocalDateTime.now();
+
+		// 2. 构造目录：basePath/userId/yyyy-MM-dd/
+		String dateDir = now.toLocalDate().toString(); // e.g. 2025-12-16
+		Path userDir = Paths.get(basePath, userId, dateDir);
 		Files.createDirectories(userDir);
-		// 2. 拼接完整文件路径
+
+		// 3. 构造完整文件路径
 		String fileName = file.getOriginalFilename();
 		Path targetPath = userDir.resolve(fileName);
-		// 3. 保存文件
+
+		// 4. 保存文件（当天同名覆盖）
 		Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-		// 4. 存数据库
-		resumeMapper.insertResume(userId, targetPath.toString());
+
+		// 5. 存数据库（手动插入时间）
+		resumeMapper.insertResume(userId, targetPath.toString(), now);
+
 		return 0;
+	}
+
+	@Override
+	public Path getResumePath(String userId, LocalDateTime updatedAt) {
+		String filepath = resumeMapper.selectFilePathByUserAndTime(userId, updatedAt);
+		if (filepath == null) {
+			return null;
+		}
+		return Paths.get(filepath);
 	}
 
 	@Override

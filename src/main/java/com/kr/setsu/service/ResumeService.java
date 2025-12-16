@@ -16,4 +16,6 @@ public interface ResumeService {
 	public List<ResumeInfo> selectResumeByUserId(String userId);
 	
 	public int deleteResume(String userId,String fileName) throws IOException;
+	
+	Path getResumePath(String userId, LocalDateTime updatedAt);
 }

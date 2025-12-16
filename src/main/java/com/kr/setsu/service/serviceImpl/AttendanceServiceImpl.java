@@ -111,7 +111,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 		}else {
 			// 该判断是为了检查当天是否已出勤
 			List<AttendanceInfo> todayAttendance = attendanceMapper.getAttendance(attendanceInfo);
-			if(todayAttendance.size()>0) {
+			if(1==1/*todayAttendance.size()>0*/) {
 				//该判断是为了检查当天是否已退勤，在未退勤的情况下退勤操作才会被执行
 				boolean flag = false;
 				
